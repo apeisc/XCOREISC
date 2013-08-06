@@ -83,7 +83,27 @@ def removeEvent(request,pk):
         post = None    
         
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))    
-    
+ 
+@login_required
+def addPubli(request,pk):
+    try:
+        asis = Publicidad.objects.get(recomienda=request.user,pk=int(pk))
+    except Publicidad.DoesNotExist:
+        asis = None
+    if not asis:
+        new = Publicidad.objects.get(pk=int(pk))
+        new.recomienda.add(request.user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+@login_required   
+def removePubli(request,pk):
+    try:
+        asis = Publicidad.objects.get(recomienda=request.user,pk=int(pk))
+    except Publicidad.DoesNotExist:
+        asis = None
+    if asis:
+        asis.recomienda.remove(request.user)       
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))       
 
 def logout(request):
     auth.logout(request)
