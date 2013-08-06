@@ -20,12 +20,12 @@ class Ponente(models.Model):
 	ponente_thumb.allow_tags = True
 
 
+
 class Events(models.Model):
     title = models.CharField(max_length=200,verbose_name='Titulo')
     body = models.TextField(verbose_name='Caracteristicas')
     fecha = models.DateTimeField()
     ponente = models.ForeignKey(Ponente)
-    Asistencia = models.IntegerField(default=0)
     asistente = models.ManyToManyField(User ,help_text='ASISTENTES',blank=True)
     banner = models.ImageField("Banner 850x350", upload_to="banners/", blank=True, null=True)
     def __unicode__(self):
@@ -40,6 +40,7 @@ class Publicidad(models.Model):
     bannerIndex = models.ImageField("Banner 250x250", upload_to="index/", blank=True)
     def __unicode__(self):
         return self.nombre
+
 
 class Post(models.Model):
     asistente = models.ForeignKey(User)

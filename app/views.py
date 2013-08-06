@@ -6,16 +6,23 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.forms import ModelForm
+
+class EventForm(ModelForm):
+    class Meta:
+        model = Events
 
 def home(request):
 	return render_to_response('home.html',RequestContext(request))
 
-@login_required
 def index(request):
     post = Post.objects.all().order_by('-pk')
     publi = Publicidad.objects.all().order_by('-pk')
     d =  dict(post=post,publi=publi)
-    return render_to_response("index.html", d, RequestContext(request))
+    if request.user.is_authenticated():
+        return render_to_response("index.html", d, RequestContext(request))
+    else:
+        return render_to_response("registration/login.html", d, RequestContext(request))
 
 @login_required
 def pages(request, pk):
@@ -26,6 +33,7 @@ def pages(request, pk):
         asis = None
     d = dict(event=event,asis=asis)
     return render_to_response("pages.html", d, RequestContext(request))
+
 
 def auspicio(request, pk):
     publi = Publicidad.objects.get(pk=int(pk))
@@ -39,7 +47,10 @@ def auspicio(request, pk):
 def allpages(request):
     event = Events.objects.all()
     d =  dict(event=event)
+    
     return render_to_response("allpages.html", d, RequestContext(request))
+    
+    
 
 def post(user,event):
     try:
@@ -115,6 +126,6 @@ def auth_view(request):
     user = auth.authenticate(username=username, password=password)
     if user is not None:
         auth.login(request,user)
-        return HttpResponseRedirect('/principal/')
+        return HttpResponseRedirect('/')
     else:
-        return HttpResponseRedirect('/pages/')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
