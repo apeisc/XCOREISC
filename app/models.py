@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
 
-'''class UserProfile(models.Model):
-    avatar = models.ImageField("Profile Pic", upload_to="media/", blank=True, null=True)
+class UserProfile(models.Model):
+    avatar = models.ImageField("Profile Pic", upload_to="thum/", blank=True, null=True)
     user = models.ForeignKey(User,unique=True)
     def __unicode__(self):
-        return unicode(self.user)'''
+        return unicode(self.user)
+
 class Ponente(models.Model):
 	nombre = models.CharField(max_length=50)
 	avatar = models.ImageField(upload_to='ponentes/', verbose_name='Imagen')
@@ -24,7 +26,32 @@ class Events(models.Model):
     fecha = models.DateTimeField()
     ponente = models.ForeignKey(Ponente)
     Asistencia = models.IntegerField(default=0)
+    asistente = models.ManyToManyField(User ,help_text='ASISTENTES',blank=True)
     banner = models.ImageField("Banner 850x350", upload_to="banners/", blank=True, null=True)
     def __unicode__(self):
         return self.title
 
+class Publicidad(models.Model):
+    nombre = models.CharField(max_length=200)
+    body = models.TextField(verbose_name='Caracteristicas')
+    direccion = models.CharField(max_length=200)
+    recomienda = models.ManyToManyField(User,blank=True)
+    banner = models.ImageField("Banner 850x350", upload_to="banners/", blank=True, null=True)
+    bannerIndex = models.ImageField("Banner 250x250", upload_to="index/", blank=True)
+    def __unicode__(self):
+        return self.nombre
+
+class Post(models.Model):
+    asistente = models.ForeignKey(User)
+    event = models.ForeignKey(Events)
+    time = models.DateTimeField(auto_now_add=True)
+    def __unicode__(self):
+        return self.user    
+
+def create_user_profile(sender, **kwargs):
+    """When creating a new user, make a profile for him."""
+    u = kwargs["instance"]
+    if not UserProfile.objects.filter(user=u):
+        UserProfile(user=u).save()
+
+post_save.connect(create_user_profile, sender=User)
