@@ -1,4 +1,0 @@
-XCOREIC
-=======
-
-XCOREIC

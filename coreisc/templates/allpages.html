@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+{% block content %}
+{% load staticfiles %}
+<div class="col-lg-9">
+	<form id='formulario' method='post' action=''>{% csrf_token %}
+        <div class="input_fix">{{formulario.body}}
+        <span class="error_message">{{ formulario.body.errors }}</span>
+        </div>
+        <input type="submit" name="" value="Confirmar">
+      </form>
+	{% for event in event %}
+	<div class="panel">
+		<div class="panel-heading">
+			<a href="/pages/{{ event.pk }}" title="">{{ event.title }}</a>
+		</div>
+		<span><img src="/media/{{ event.ponente.avatar }}" class="img-circle" width="40px;">Ponente: {{ event.ponente }}</span>	
+		<p class="label label-info">
+			{{ event.asistente.count }} persona(s) que asistiran a este evento.
+		</p>
+		<p class=" label label-danger"><span class="glyphicon glyphicon-calendar"></span>
+		{{ event.fecha }} </p>
+		<p class=" label label-danger">Lugar: Auditorio</p>
+		<div class="panel-footer">
+				{% if asis %}
+				<a href="/remove/{{ event.pk }}" class="btn btn-success remove"><button type="button" class="close">&times;</button>Asistir&eacute; </a>
+				{% else %}
+				<a href="/add/{{ event.pk }}" class="btn btn-danger" id="{{event.pk}}" class="add" title="">Asistir</a>
+				{% endif %}
+			<a href="" class="btn btn-info" title="">Recomendar</a>
+		</div>
+	</div>
+	{% empty %}
+	<div class="panel">
+		No hay eventos
+	</div>
+	{% endfor %}
+</div>
+{% endblock %}				
