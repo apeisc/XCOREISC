@@ -1,5 +1,6 @@
 from app.models import *
 from django.contrib import admin
+
 class PostAdmin(admin.ModelAdmin):
     list_display = ["asistente","event","time"]
 class ProfileAdmin(admin.ModelAdmin):
@@ -10,8 +11,11 @@ class EventsAdmin(admin.ModelAdmin):
     list_display = ('title', 'body', 'fecha', 'ponente','banner')
 class PublicidadAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'body', 'direccion')
+class PaisAdmin(admin.ModelAdmin):
+    list_display = ["nombre","bandera"]
 admin.site.register(Ponente,PonenteAdmin)
 admin.site.register(Events,EventsAdmin)
 admin.site.register(UserProfile, ProfileAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Publicidad, PublicidadAdmin)
+admin.site.register(Paises, PaisAdmin)

@@ -44,13 +44,25 @@ def auspicio(request, pk):
     d = dict(publi=publi,asis=asis)
     return render_to_response("auspicio.html", d, RequestContext(request))
 
+def ponentes(request):
+    ponente = Ponente.objects.all()
+    d = dict(list=ponente)
+    return render_to_response("ponentes.html",d, RequestContext(request))
+
 def allpages(request):
     event = Events.objects.all()
     d =  dict(event=event)
-    
     return render_to_response("allpages.html", d, RequestContext(request))
     
-    
+def createEvent(request):
+    if request.method=='POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/pages/')
+    else:
+        form = EventForm()
+    return render_to_response('createEvent.html',{'form':form},RequestContext(request))
 
 def post(user,event):
     try:
