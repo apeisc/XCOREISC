@@ -11,3 +11,4 @@ class PonenteForm(ModelForm):
 class EventForm(ModelForm):
     class Meta:
         model = Events
+

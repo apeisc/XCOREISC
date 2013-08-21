@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Coreisc</title>
+        <title>Coreisc X UNPRG 2014</title>
         <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
         <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
         <link rel="stylesheet" href="{% static "css/bootstrap-glyphicons.css" %}">
@@ -13,6 +13,9 @@
         <link rel="stylesheet" href="{% static "css/main.css" %}">
     </head>
     <body>
+    <noscript>
+    	<h3>Algunas de las funciones puedes fallar debido a que tiene deshabilitado javascript en su navegador. Porfavor activalo.</h3>
+    </noscript>
     <nav class="navbar navbar-inverse navbar-fixed-top bs-docs-nav">
 	  <div class="container">
 	    <a href="./" class="navbar-brand">COREISC</a>
@@ -35,6 +38,8 @@
 	    </div>-->
 	  </div>
 	</nav>
+	
+    <div class="clearfix"></div>
         <section>
         	<div class="container">
         		<div class="row">
@@ -42,69 +47,88 @@
 				  	<div class="panel panel-danger well">
 						<div class="panel-heading">Registro a la plataforma Coreisc UNPRG 2014</div>
 						<div class="alert alert-info">Si ya cancelaste tu inscripcion registrate en nuestra plataforma para estar al tanto de toda actividad y novedad de Coreisc .</div>
-						<legend>Datos personales</legend>
-						<form class="form-horizontal">
-						  <div class="form-group">
-						    <label for="Tipo" class="col-lg-2 control-label">Codigo de Insc.</label>
-						    <div class="col-lg-10">
-						      <input type="text" class="form-control" id="Tipo" placeholder="Codigo de inscripcion">
-						    </div>
-						    <span class="clearfix"></span>
-						    <div class="alert">¿Aun no tienes tu <i>codigo de inscripcion</i>?, opten en tuyo aqui.</div>
-						  </div>
-						  <div class="form-group">
-						    <label for="inputEmail" class="col-lg-2 control-label">Email</label>
-						    <div class="col-lg-10">
-						      <input type="text" class="form-control" id="inputEmail" placeholder="Email">
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <label for="inputPassword" class="col-lg-2 control-label">Password</label>
-						    <div class="col-lg-10">
-						      <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <label for="Nombres" class="col-lg-2 control-label">Nombres</label>
-						    <div class="col-lg-10">
-						      <input type="Nombres" class="form-control" id="Nombres" placeholder="Nombres">
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <label for="Apellidos" class="col-lg-2 control-label">Apellidos</label>
-						    <div class="col-lg-10">
-						      <input type="Apellidos" class="form-control" id="Apellidos" placeholder="Apellidos">
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <label for="Dni" class="col-lg-2 control-label">Dni</label>
-						    <div class="col-lg-10">
-						      <input type="Dni" class="form-control" id="Dni" placeholder="Dni">
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <label for="Apellidos" class="col-lg-2 control-label">Apellidos</label>
-						    <div class="col-lg-10">
-						      <input type="Apellidos" class="form-control" id="Apellidos" placeholder="Apellidos">
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <label for="Movil" class="col-lg-2 control-label">Movil</label>
-						    <div class="col-lg-10">
-						      <input type="Movil" class="form-control" id="Movil" placeholder="Movil">
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <div class="col-lg-10">
-						      <button type="submit" class="btn btn-default">Inscribirse</button>
-						    </div>
-						  </div>
+						<legend>Datos de transaccion</legend>
+						{{ form.errors }}
+						<form class="form-horizontal" id="register" action="/process/" method="post">{% csrf_token %}
+							<div class="form-group">
+								<label for="id_tipo" class="col-lg-3 control-label">Tipo:</label>
+								<div class="col-lg-8">
+									<select name="tipo" id="id_tipo" class="form-control">
+										<option value="1">Estudiante</option>
+										<option value="2">Profesional</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="id_n_trans" class="col-lg-3 control-label">Monto:</label>
+								<div class="col-lg-8">
+									<input type="text" class="form-control" name="" value="s/.150.0" placeholder="" disabled>
+								</div>
+							</div>
+							<div class="form-group" id="codediv">
+								<label for="id_n_trans" class="col-lg-3 control-label">N° Transacción: </label>
+								<div class="col-lg-8">
+								  <input type="text" class="form-control" id="id_n_trans" name="n_trans" placeholder="Numero de transaccion">
+								  {{ form.n_trans.errors }}
+								</div>
+								<button type="button" id="sendcheck" class="btn btn-danger"><span class="glyphicon glyphicon-search"></span></button>
+								</div>
+								<div class="alert process">¿Aun no tienes tu <i>codigo de inscripcion</i>?, opten en tuyo  <a href="#" class="alert-link">aqui</a>.</div>
+								<div class="true">
+								  <legend>Datos personales</legend>
+								  <div class="form-group" id="userdiv">
+								    <label for="id_user2" class="col-lg-2 control-label">Username:</label>
+								    <div class="col-lg-9">
+								      <input type="text" class="form-control" id="id_user2" placeholder="Nombre se Usuario" autocomplete="off">
+								      {{ form1.user2.errors }}
+								    </div>
+								    <button type="button" id="senduser" class="btn btn-danger"><span class="glyphicon glyphicon-search"></span></button>
+								  </div>
+								  <div id="checkuser"></div>
+								  <div class="form-group" id="emaildiv">
+								    <label for="id_email" class="col-lg-2 control-label">Email:</label>
+								    <div class="col-lg-10">
+								      <input type="text" class="form-control" id="id_email" placeholder="Email" autocomplete="off">
+								      {{ form1.email.errors }}
+								    </div>
+								  </div>
+								  <div id="checkemail"></div>
+								  <div class="form-group" id="namediv1">
+								    <label for="id_first_name" class="col-lg-2 control-label">Nombres:</label>
+								    <div class="col-lg-10">
+								      <input type="text" class="form-control" id="id_first_name" name="first_name" maxlength="30" placeholder="Nombres">
+								    </div>
+								  </div>
+								  <div class="form-group" id="namediv2">
+								    <label for="id_last_name" class="col-lg-2 control-label">Apellidos:</label>
+								    <div class="col-lg-10">
+								      <input type="text" class="form-control" id="id_last_name" name="last_name" maxlength="30" placeholder="Apellidos">
+								    </div>
+								  </div>
+								  <div class="form-group" id="dnidiv">
+								    <label for="id_dni" class="col-lg-2 control-label">Dni:</label>
+								    <div class="col-lg-10">
+								      <input type="text" class="form-control" id="id_dni" name="dni" placeholder="Dni" maxlength="8">
+								    </div>
+								  </div>
+								  <div class="form-group" id="movildiv">
+								    <label for="id_telefono" class="col-lg-2 control-label">Movil:</label>
+								    <div class="col-lg-10">
+								      <input type="text" class="form-control" id="id_telefono" placeholder="Movil">
+								    </div>
+								  </div>
+								  <div class="form-group">
+								    <div class="col-lg-10">
+								      <button type="submit" class="btn btn-default">Inscribirse</button>
+								    </div>
+								  </div>
+							</div>
 						</form>
 					</div>
 				  </div>
 				  <div class="col-lg-6">
 					<div class="panel panel-primary well">
-						<div class="panel-heading"><h4>Ingresar a la plataforma</h4></div>
+						<div class="panel-heading">Ingresar a la plataforma</div>
 						<form id="login" class="form-horizontal" method="post" action="/login/">
 							{% csrf_token %}
 						  <div class="form-group">
@@ -112,7 +136,6 @@
 						    <div class="col-lg-10">
 						      <input type="text" class="form-control" name="username" id="username" placeholder="Username">
 						    </div>
-						    
 						  </div>
 						  <div class="form-group">
 						    <label for="Password" class="col-lg-2 control-label">Password</label>
@@ -120,11 +143,15 @@
 						      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
 						      <div class="checkbox">
 						        <label>
-						          <input type="checkbox"> Recordarme
+						          <input type="checkbox" value="remember_me"> Recordarme
 						        </label>
 						      </div>
-						      <button type="submit" class="btn btn-default">Sign in</button>
 						    </div>
+						    <div class="col-lg-12">
+						    	{%if msg %}<div class="alert alert-danger">{{ msg }}</div>{%endif%}
+						    	<button type="submit" class="btn btn-default">Sign in</button>
+						    </div>
+						    
 						  </div>
 						</form>
 					</div>
@@ -134,9 +161,136 @@
         </section>
         <footer>
 	        <div class="container"><p>© Coreisc UNPRG 2014.</div>	
+
 	    </footer>
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
         <script src="{% static "js/bootstrap.js" %}"></script>
-        
+        <script type="text/javascript">
+        	$('#register').submit(function(){
+        		
+        	});
+        	var valid = $('#id_n_trans').val();
+        	if(valid.length>1)
+    		{
+    			$('.true').show();
+    		}
+        	$('#sendcheck').on('click',function(){
+        		var form = $('#id_n_trans').val();
+        		if(form.length>1)
+        		{
+					$.ajax({ // create an AJAX call...
+					  data: 'b='+form, // get the form data
+					  url: '/checktrans/', // the file to call
+					  beforeSend: function(response){
+					    $('.process').html('Cargando..');
+					  },
+					  success: function(response) { // on success..
+					  	if(response=='True')
+					  	{
+					  		$('.process').html('N° Disponible').addClass('alert-success').removeClass('alert-danger'); 
+					  		$('#codediv').addClass('has-success').removeClass('has-error');
+					      	$('.true').slideDown();
+					  	}else{
+					  		$('.process').html('Usted ya forma parte del XXI Coneisc. Te esperamos!').addClass('alert-danger').removeClass('alert-success');
+					  		$('#codediv').addClass('has-error').removeClass('has-success');
+					  		$('.true').slideUp();
+					  	}
+					      
+					  }
+					});
+					return false;
+				}
+			  });
+        	$('#id_email').keyup(function(){
+        		var form = $(this).val();
+        		if(form.length>0)
+        		{
+					$.ajax({ // create an AJAX call...
+					  data: 'b='+form, // get the form data
+					  url: '/checkemail/', // the file to call
+					  beforeSend: function(response){
+					    $('#checkemail').html('Cargando..');
+					  },
+					  success: function(response) { // on success..
+					  	if(response=='True')
+					  	{
+					  		$('#checkemail').hide();
+					  		$('#emaildiv').addClass('has-success').removeClass('has-error');
+					  	}else{
+					  		$('#checkemail').show().html('Email ya esta en uso').addClass('alert alert-danger');
+					  		$('#emaildiv').addClass('has-error').removeClass('has-success');
+					  	}
+					      
+					  }
+					});
+					return false;
+				}else{
+					$('#emaildiv').addClass('has-error').removeClass('has-success');
+				}
+			  });
+        	$('#senduser').on('click',function(){
+        		var form = $('#id_user2').val();
+        		if(form.length>0)
+        		{
+					$.ajax({ // create an AJAX call...
+					  data: 'b='+form, // get the form data
+					  url: '/checkuser/', // the file to call
+					  beforeSend: function(response){
+					    $('#checkuser').html('Cargando..');
+					  },
+					  success: function(response) { // on success..
+					  	if(response=='True')
+					  	{
+					  		$('#checkuser').hide();
+					  		$('#userdiv').addClass('has-success').removeClass('has-error');
+					  	}else{
+					  		$('#checkuser').show().html('user ya esta en uso').addClass('alert alert-danger');
+					  		$('#userdiv').addClass('has-error').removeClass('has-success');
+					  	}
+					      
+					  }
+					});
+					return false;
+				}else{
+					$('#emaildiv').addClass('has-error').removeClass('has-success');
+				}
+			  });
+        	$('#id_dni').keyup(function(){
+        		var dni = $(this).val();
+	        	if(dni.length>7 && dni.length<9)
+	        	{
+	        		$('#dnidiv').addClass('has-success').removeClass('has-error');
+	        	}else{
+	        		$('#dnidiv').addClass('has-error').removeClass('has-success');
+	        	}
+        	});
+        	$('#id_first_name').keyup(function(){
+        		var dni = $(this).val();
+	        	if(dni.length>2 && dni.length<30)
+	        	{
+	        		$('#namediv1').addClass('has-success').removeClass('has-error');
+	        	}else{
+	        		$('#namediv1').addClass('has-error').removeClass('has-success');
+	        	}
+        	});
+        	$('#id_last_name').keyup(function(){
+        		var dni = $(this).val();
+	        	if(dni.length>2 && dni.length<30)
+	        	{
+	        		$('#namediv2').addClass('has-success').removeClass('has-error');
+	        	}else{
+	        		$('#namediv2').addClass('has-error').removeClass('has-success');
+	        	}
+        	});
+        	$('#id_telefono').keyup(function(){
+        		var dni = $(this).val();
+	        	if(dni.length>5 && dni.length<15)
+	        	{
+	        		$('#movildiv').addClass('has-success').removeClass('has-error');
+	        	}else{
+	        		$('#movildiv').addClass('has-error').removeClass('has-success');
+	        	}
+        	});
+        </script>
     </body>
 </html>

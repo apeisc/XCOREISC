@@ -2,12 +2,6 @@
 {% block content %}
 {% load staticfiles %}
 <div class="col-lg-9">
-	<form id='formulario' method='post' action=''>{% csrf_token %}
-        <div class="input_fix">{{formulario.body}}
-        <span class="error_message">{{ formulario.body.errors }}</span>
-        </div>
-        <input type="submit" name="" value="Confirmar">
-      </form>
 	{% for event in event %}
 	<div class="panel">
 		<div class="panel-heading">
@@ -30,7 +24,7 @@
 		</div>
 	</div>
 	{% empty %}
-	<div class="panel">
+	<div class="well">
 		No hay eventos
 	</div>
 	{% endfor %}

@@ -2,10 +2,23 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
+TIPOS= (
+    ('1', 'Estudiante'),
+    ('2', 'Profesional'),
+)
 
 class UserProfile(models.Model):
-    avatar = models.ImageField("Profile Pic", upload_to="thum/", blank=True, null=True)
+    tipo = models.CharField(max_length=2, verbose_name='Tipo',choices=TIPOS,null=False)
+    n_trans = models.CharField(max_length=20, verbose_name='N Transaccion',unique=True,error_messages={'unique': 'Ya forma parte del X Coreisc. Te esperamos'})#revisar n de transsaccion longitud
+    fecha_trans = models.DateTimeField(auto_now_add=True)#quitar auto_now_add=True solo de prueba
+    avatar = models.ImageField("Profile Pic", upload_to="thum/", blank=True, null=True, default="thum/demo.jpg")
     user = models.ForeignKey(User,unique=True)
+    user2 = models.CharField(max_length=12,blank=True)
+    dni = models.CharField(max_length=8, null=False)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    telefono = models.CharField(max_length=15, blank=True)
+    sexo = models.BooleanField(default=True)
     def __unicode__(self):
         return unicode(self.user)
 class Pais(models.Model):
@@ -36,7 +49,7 @@ class Events(models.Model):
     def __unicode__(self):
         return self.title
 
-class Publicidad(models.Model):
+class Patrocina(models.Model):
     nombre = models.CharField(max_length=200)
     body = models.TextField(verbose_name='Caracteristicas')
     direccion = models.CharField(max_length=200)

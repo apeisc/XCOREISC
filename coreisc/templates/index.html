@@ -40,14 +40,41 @@
         <section>
         	<div class="container">
         		<div class="row">
-        			<div class="col-lg-2">
+        			<div class="col-lg-3">
 						<div class="panel">
-							<div class="panel-heading clearfix">{{ user.first_name }} {{user.last_name}}</div>
-							<center><img src="/media/{{ user.get_profile.avatar|default:"thum/Steven_Wells.jpg"  }}" class="img-thumbnail"></center>
+							<div class="panel-heading clearfix">{{ user.first_name }} {{user.last_name}} ({{ user }})
+							</div>
+							<center><div id="img_avatar">
+								<img  src="/media/{{ user.get_profile.avatar|default:"thum/Steven_Wells.jpg"  }}" class="img-thumbnail">
+							</div>
+							 <a data-toggle="modal" href="#picture" class="btn btn-primary btn-lg">Editar foto</a>
+							 <div class="modal fade" id="picture">
+							    <div class="modal-dialog">
+							      <div class="modal-content">
+							        <div class="modal-header">
+							          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							          <h4 class="modal-title">Edit picture</h4>
+							        </div>
+							         <form id="img" action="/edit_profile/" enctype="multipart/form-data" method="post">{% csrf_token %}
+							        <div class="modal-body">
+		                                    <input type="file" name="avatar" id="id_avatar">
+							        </div>
+							        <div class="modal-footer">
+		                                        <input type="submit" value="guardar" class="btn btn-danger">
+		                            </div>
+							         </form>
+							      </div><!-- /.modal-content -->
+							    </div><!-- /.modal-dialog -->
+							  </div><!-- /.modal -->
+								
+							
+							<div class="checkuser"></div>
+							</center>
 							<div class="panel-footer">
-								<div>
+								<div align="center">
 								<a href="" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Perfil"><span class="glyphicon glyphicon-user"></span></a>
-								<a href="" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Mensajes"><span class="glyphicon glyphicon-envelope"></span></a>
+								<a href="" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Mensajes"><span class="glyphicon glyphicon-envelope"></span></a>{% if user.is_staff %}
+								<a href="/admin/" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Administracion"><span class="glyphicon glyphicon-cog"></span></a>{% endif%}
 								<a href="/logout/" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Salir"><span class="glyphicon glyphicon-off"></span></a>
 								</div>
 							</div>	
@@ -61,7 +88,7 @@
 						</div>
         			</div>
         			{% block content %}
-					<div class="col-lg-7">
+					<div class="col-lg-6">
 						{% for post in post %}
 							<div class="panel">
 								<div class="panel-heading">
@@ -109,6 +136,23 @@
         <script type="text/javascript">
 		    $("[rel=tooltip]").tooltip();
 		    $(".timeago").timeago();
+			/*$('#img').submit(function(e){
+		    	data2 = $('#img').serialize(),
+					console.log(data2);
+		    		$.ajax({ // create an AJAX call...
+			          data: 'b='+$('#img').serialize(), // get the form data
+			          type: "GET",
+			          url: "/accounts/edit/user/", // the file to call
+			          beforeSend: function(response){
+			            $('.checkuser').html('<img src="http://www.goodleads.com/content/styles/images/preloader.gif" width="30px">');
+			          },
+			          success: function(response) { // on success..
+			             $('.checkuser').html(response);
+			          }
+			      	});
+		    	return false;
+		    });*/
+
 		</script>
     </body>
 </html>

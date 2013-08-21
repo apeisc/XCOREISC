@@ -7,7 +7,26 @@
 
 /* Key scaffolding
 -------------------------------------------------- */
-
+.avatar {
+border: 3px dashed #707982;
+width: 70%;
+padding: 10px;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+margin: 0 auto;
+-o-border-radius: 5px;
+-ms-border-radius: 5px;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+text-align: center;}
+#picture > .modal-dialog > .modal-content {
+  width: 60%;
+}
+.true{
+  display: none;
+}
 body {
   position: relative; /* For scrollyspy */
   padding-top: 50px; /* Account for fixed navbar */
