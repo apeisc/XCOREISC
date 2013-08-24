@@ -7,7 +7,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Coreisc UNPRG Plataforma{% endblock %}</title>
         <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
-        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
         <link rel="stylesheet" href="{% static "css/bootstrap-glyphicons.css" %}">
         <link rel="stylesheet" href="{% static "css/bootstrap-wizard.css" %}">
         <link rel="stylesheet" href="{% static "css/main.css" %}">
@@ -42,7 +41,7 @@
         		<div class="row">
         			<div class="col-lg-3">
 						<div class="panel">
-							<div class="panel-heading clearfix">{{ user.first_name }} {{user.last_name}} ({{ user }})
+							<div class="panel-heading clearfix">{{ user.get_profile.first_name }} {{user.get_profile.last_name}} ({{ user }})
 							</div>
 							<center><div id="img_avatar">
 								<img  src="/media/{{ user.get_profile.avatar|default:"thum/Steven_Wells.jpg"  }}" class="img-thumbnail">
@@ -93,19 +92,31 @@
 							<div class="panel">
 								<div class="panel-heading">
 									<img src="/media/{{ post.asistente.get_profile.avatar }}" class="img-circle" width="24px"> <a href="" title="">{{ post.asistente.first_name }}</a> asistira a <a href="/pages/{{post.event.pk }}" title="">{{post.event }}</a>
+									<small class="timeago " title="{{ post.time|date:'Y-m-d H:i:s'}}"></small>
 									{% if user.is_staff %}
 									<a href="/remove/post/{{ post.pk}}" class="close">&times;</a>
 									{% endif%}
 								</div>
 								<p>
+								<strong>{{ post.event.asistente.count }}</strong> participantes
 								{% for participante in post.event.asistente.all %}
-									<a href="" title="" rel="tooltip" data-original-title="{{ participante.first_name }}"><img src="/media/{{ participante.get_profile.avatar }}" class="img-circle" width="32px"></a>
+									<a href="" title="" rel="tooltip" data-original-title="{{ participante }}"><img src="/media/{{ participante.get_profile.avatar }}" class="user_thumbs"  width="24px"></a>
 								{% endfor %}
 								</p>
-								<div class="panel-footer"><small class="timeago " title="{{ post.time|date:'Y-m-d H:i:s'}}"></small></div>	
+								<div class="panel-footer">
+									<div class="media">
+							        <a class="pull-left" href="#">
+							          <img class="media-object" src="/media/{{ post.asistente.get_profile.avatar }}" style="width: 64px; height: 64px;">
+							        </a>
+							        <div class="media-body">
+							          <h4 class="media-heading">{{post.asistente}}</h4>
+							          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+							        </div>
+							      </div>
+								</div>	
 							</div>	
 							{% empty%}
-							<div class="well">no hay ninguna publicacion hoy</div>
+							<div class="panel">no hay ninguna publicacion hoy</div>
 							{% endfor %}
 					</div>
 					<div class="col-lg-3">

@@ -18,8 +18,16 @@ class EventForm(ModelForm):
 class UserForm(ModelForm):
     class Meta:
         model = User
+
+class ThumbEditForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        exclude = [ "user","tipo","n_trans","active","fecha_trans","user2","dni","first_name","last_name","telefono","sexo"]
+        avatar = forms.ImageField()
+
 class UserProfileForm(forms.ModelForm):
     tipo = forms.TypedChoiceField(choices = TIPOS)
+    sexo = forms.ChoiceField(choices= SEXO,widget=forms.RadioSelect)
     class Meta:
         model = UserProfile
         exclude = [ "user"]
@@ -112,6 +120,29 @@ def checkEmail(request):
         msg = False
     return HttpResponse(msg)
 
+def new_user(request):
+    UserF = UserCreationForm(request.POST or None)
+    if request.method == "POST" and request.is_ajax():   
+          
+        '''print request.POST
+        if UserF.is_valid():
+            UserF.save()
+            new = request.POST.copy()
+            #if UserF.is_valid():
+            u = User.objects.create_user(new['username'],
+                                 new['email'],
+                                 new['password1'])
+            u.is_active = False
+            u.save()
+            msg="<div class='alert-box a-green'>Tu Quimera fue publicada con exito.<a href='#' class='submitBlue submitBlue-active'>Publicar</a></div>"
+        else:
+            msg="<div class='alert-box a-red'>Ocurrio un problema al enviar datos, verifica que esten completos.<a href='#' class='submitBlue submitBlue-active'>Publicar</a></div>"
+    '''
+        msg="<div class='alert-box a-green'>Tu Quimera fue publicada con exito.<a href='#' class='submitBlue submitBlue-active'>Publicar</a></div>"
+        UserF.save()   
+    else:
+        msg = "GET petitions are not allowed for this view."
+    return HttpResponse(msg)
 
 def allpages(request):
     event = Events.objects.all()
@@ -192,12 +223,12 @@ def edit_user(request):
     profile = UserProfile.objects.get(user=request.user)
     if request.method=="POST":   
         print request.POST
-        asis = UserProfileForm(request.POST,request.FILES,instance=profile)
+        asis = ThumbEditForm(request.POST,request.FILES,instance=profile)
         if asis.is_valid():
             asis.save()
             imfn = pjoin(settings.MEDIA_ROOT, profile.avatar.name)
             im = PImage.open(imfn)
-            im.thumbnail((160,160), PImage.ANTIALIAS)
+            im.thumbnail((240,240), PImage.ANTIALIAS)
             im.save(imfn, "JPEG")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  
 
@@ -206,11 +237,15 @@ def auth_view(request):
         username = request.POST.get('username','')
         password = request.POST.get('password','')
         user = auth.authenticate(username=username, password=password)
-        if user is not None:
+        try:
+            estado = UserProfile.objects.get(user2=username,active=True)
+        except UserProfile.DoesNotExist:
+            estado = None
+        if estado is not None and user is not None:
             auth.login(request,user)
             return HttpResponseRedirect('/')
         else:
-            msg = 'Verifique los datos, posiblemente aun no se encuentre activada su cuenta asi que le regamos que revise su Email para confirmar, o vuelva a intentarlo en breves minutos'
+            msg = 'Verifique los datos, posiblemente que aun  su cuenta no se encuentre activada asi que le regamos que revise su Email para confirmar, o vuelva a intentarlo en breves minutos'
             return render_to_response('registration/login.html', {'msg': msg }, context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/')    

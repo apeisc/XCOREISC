@@ -6,9 +6,12 @@ TIPOS= (
     ('1', 'Estudiante'),
     ('2', 'Profesional'),
 )
-
+SEXO = (
+    ('M', 'Masculino'),
+    ('F', 'Femenino'),
+)
 class UserProfile(models.Model):
-    tipo = models.CharField(max_length=2, verbose_name='Tipo',choices=TIPOS,null=False)
+    tipo = models.CharField(max_length=1, verbose_name='Tipo',choices=TIPOS,null=False)
     n_trans = models.CharField(max_length=20, verbose_name='N Transaccion',unique=True,error_messages={'unique': 'Ya forma parte del X Coreisc. Te esperamos'})#revisar n de transsaccion longitud
     fecha_trans = models.DateTimeField(auto_now_add=True)#quitar auto_now_add=True solo de prueba
     avatar = models.ImageField("Profile Pic", upload_to="thum/", blank=True, null=True, default="thum/demo.jpg")
@@ -18,7 +21,8 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     telefono = models.CharField(max_length=15, blank=True)
-    sexo = models.BooleanField(default=True)
+    sexo = models.CharField(max_length=1, choices=SEXO,null=False)
+    active = models.BooleanField("User Activo",default=False)
     def __unicode__(self):
         return unicode(self.user)
 class Pais(models.Model):

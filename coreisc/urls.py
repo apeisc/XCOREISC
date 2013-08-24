@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     url(r'^checkuser/', checkUser),
     url(r'^checktrans/', checkTrans),
     url(r'^checkemail/', checkEmail),
-    url(r'^process/', process),
+    url(r'^process/$', process),
+    url(r'^process/create/', new_user),
     url(r'^admin/', include(admin.site.urls)),
 )

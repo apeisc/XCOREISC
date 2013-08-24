@@ -27,9 +27,16 @@ text-align: center;}
 .true{
   display: none;
 }
+ul.radio{
+  list-style: none;
+}
+.user_thumbs{
+  border-radius: 3px;
+}
 body {
   position: relative; /* For scrollyspy */
   padding-top: 50px; /* Account for fixed navbar */
+  background-color: #f1f1f1;
 }
 section{
   margin-top: 5px;
@@ -101,11 +108,11 @@ section{
 
 }
 .bs-docs-nav .navbar-toggle {
-  border-color: #428bca;
+  border-color: #f15a23;
 }
 .bs-docs-nav .navbar-toggle:hover {
-  background-color: #428bca;
-  border-color: #428bca;
+  background-color: #f15a23;
+  border-color: #f15a23;
 }
 
 /* Old docs callout */

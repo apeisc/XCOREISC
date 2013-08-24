@@ -1586,17 +1586,18 @@ fieldset[disabled] .btn {
 }
 
 .btn-default {
-  color: #ffffff;
-  background-color: #474949;
-  border-color: #474949;
+  color: #333333;
+  background-color: #ffffff;
+  border-color: #cccccc;
 }
 
 .btn-default:hover,
 .btn-default:focus,
 .btn-default:active,
 .btn-default.active {
-  background-color: #3a3c3c;
-  border-color: #2e2f2f;
+  color: #333333;
+  background-color: #ebebeb;
+  border-color: #adadad;
 }
 
 .btn-default.disabled,
@@ -2320,6 +2321,15 @@ a.list-group-item.active .list-group-item-text {
   border-color: #eed3d7;
 }
 
+.panel-coreisc {
+  border-color: #f15a23;
+}
+
+.panel-coreisc .panel-heading {
+  background-color: #f15a23;
+  color: #fff;
+}
+
 .panel-danger .panel-heading {
   color: #b94a48;
   background-color: #f2dede;
@@ -2645,7 +2655,7 @@ button.close {
 
 .navbar {
   position: relative;
-  min-height: 50px;
+  
   padding-right: 15px;
   padding-left: 15px;
   margin-bottom: 20px;
@@ -2679,7 +2689,7 @@ button.close {
 }
 
 .navbar-nav > li > a {
-  padding-top: 15px;
+  
   padding-bottom: 15px;
   line-height: 20px;
   color: #777777;
@@ -2735,7 +2745,7 @@ button.close {
 .navbar-brand {
   display: block;
   max-width: 200px;
-  padding: 15px 15px;
+  padding: 10px 15px;
   margin-right: auto;
   margin-left: auto;
   font-size: 18px;
@@ -2754,7 +2764,7 @@ button.close {
 
 .navbar-toggle {
   position: absolute;
-  top: 9px;
+  top: 4px;
   right: 10px;
   width: 48px;
   height: 32px;
