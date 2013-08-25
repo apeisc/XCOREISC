@@ -1,0 +1,82 @@
+{% extends "index.html" %}
+{% block content %}
+{% load staticfiles %}
+<div class="col-lg-9">
+	<div class="panel">
+		<!--<div class="panel-heading">{{username.get_full_name}}</div>-->
+		<table width="100%">
+		<tbody><tr>
+			<td valign="top">
+				<a href=""><img src="/media/{{username.get_profile.avatar}}" width="120" height="120" class="img-polaroid"></a>
+			</td>
+			<td valign="top">
+				<h3>
+					{{ username.get_full_name}}
+					{% if username != user %}
+						{% if follow %}
+						<a href="/nofollow/{{ username }}" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-heart"></i> Siguiendo</a>
+						{% else %}
+						<a href="/follow/{{ username }}" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-heart"></i> Segir</a>
+						{% endif %}
+					{% endif %}
+				</h3>
+			</td>
+			<td valign="top" align="right">
+				<table>
+					<tbody>
+						<tr>
+							<td width="100px" align="center">
+									<h3>{{count_follower.count}}</h3>
+									<small>Lo siguen</small>
+							</td>
+							<td width="100px" align="center">
+								<h3>{{count_follow.count}}</h3>	
+								<small>esta siguiendo</small>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr></tbody>
+		</table>
+	</div>
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="list-group">
+			  <a href="#" class="list-group-item active">
+			    <h5 class="list-group-item-heading">Datos Personales</h5>
+			  </a>
+			  <a href="#" class="list-group-item">
+			    <h4 class="list-group-item-heading">Universidad</h4>
+			    <p class="list-group-item-text">Universidad Nacional Pedro Ruiz Gallo</p>
+			  </a>
+			  <a href="#" class="list-group-item">
+			    <h4 class="list-group-item-heading">Ciclo</h4>
+			    <p class="list-group-item-text">Quinto</p>
+			  </a>
+			</div>
+		</div>
+		<div class="col-lg-8">
+			{% for post in post %}
+			<div class="panel">
+				<div class="panel-heading">
+					{% if user.is_staff %}
+					<a href="/remove/post/{{ post.pk}}" class="close">&times;</a>
+					{% endif%}
+					<img src="/media/{{ post.asistente.get_profile.avatar }}" class="img-circle" width="24px"> <a href="" title="">{{ post.asistente.first_name }}</a> asistira a <a href="/pages/{{post.event.pk }}" title="">{{post.event }}</a><br>
+					<small class="timeago " title="{{ post.time|date:'Y-m-d H:i:s'}}"></small>
+				</div>
+				<p>
+				<strong>{{ post.event.asistente.count }}</strong> participantes
+				{% for participante in post.event.asistente.all %}
+					<a href="" title="" rel="tooltip" data-original-title="{{ participante }}"><img src="/media/{{ participante.get_profile.avatar }}" class="user_thumbs"  width="24px"></a>
+				{% endfor %}
+				</p>
+			</div>	
+			{% empty%}
+			<div class="panel">no hay ninguna publicacion hoy</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}				

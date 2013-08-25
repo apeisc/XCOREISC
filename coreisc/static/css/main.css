@@ -83,7 +83,7 @@ section{
 
 .bs-docs-nav {
   background-color: #fff;
-  border-bottom: 2px solid #f15a23;
+  border-bottom: 2px solid #0077cc;
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 800;
@@ -91,19 +91,19 @@ section{
   letter-spacing: -0.08px;
 }
 .bs-docs-nav .navbar-brand {
-  color: #f15a23;
+  color: #0077cc;
 }
 .bs-docs-nav .navbar-nav > li > a {
-  color: #3a3a3a;
+  color: #0077cc;
 }
 .bs-docs-nav .navbar-nav > li > a:hover {
-  color: #f15a23;
+  color: #0077cc;
   background-color: #f8f8f8;
 }
 
 .bs-docs-nav .navbar-nav > .active > a,
 .bs-docs-nav .navbar-nav > .active > a:hover {
-  color: #f15a23;
+  color: #0077cc;
   background-color: #f8f8f8;
 
 }

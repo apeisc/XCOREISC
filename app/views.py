@@ -232,6 +232,53 @@ def edit_user(request):
             im.save(imfn, "JPEG")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  
 
+#seccion user profile
+def account(request, username):
+    try:
+        username = User.objects.get(username=username)
+    except User.DoesNotExist:
+        username = None
+    post = Post.objects.all().order_by('-pk').filter(asistente=username)
+    follow = Follow.objects.filter(user1=request.user,user2=username)
+    count_follow = Follow.objects.all().filter(user1=username)
+    count_follower = Follow.objects.all().filter(user2=username)
+    d =  dict(username=username,post=post,follow=follow,count_follow=count_follow,count_follower=count_follower)
+    if username is not None:
+        return render_to_response("profile.html", d, RequestContext(request))
+    else:
+        return HttpResponseRedirect('/')#cambiar esto
+    
+def follow(request,username):
+    try:
+        username = User.objects.get(username=username)
+    except User.DoesNotExist:
+        username = None
+    if username is not request.user:
+        if username is not None:
+            try:
+                follow = Follow.objects.get(user1=request.user,user2=username)
+            except Follow.DoesNotExist:
+                follow = None
+            if follow is None:
+                follower = Follow.objects.create(user1=request.user,user2=username)
+                follower.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  
+
+def nofollow(request,username):
+    try:
+        username = User.objects.get(username=username)
+    except User.DoesNotExist:
+        username = None
+    if username is not request.user:
+        if username is not None:
+            try:
+                follow = Follow.objects.get(user1=request.user,user2=username)
+            except Follow.DoesNotExist:
+                follow = None
+            if follow is not None:
+                Follow.objects.filter(user1=request.user,user2=username).delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  
+
 def auth_view(request):
     if request.method=='POST':
         username = request.POST.get('username','')

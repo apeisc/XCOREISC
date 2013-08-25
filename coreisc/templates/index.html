@@ -43,32 +43,32 @@
 						<div class="panel">
 							<div class="panel-heading clearfix">{{ user.get_profile.first_name }} {{user.get_profile.last_name}} ({{ user }})
 							</div>
-							<center><div id="img_avatar">
-								<img  src="/media/{{ user.get_profile.avatar|default:"thum/Steven_Wells.jpg"  }}" class="img-thumbnail">
+							<div class="panel-body">
+								<center>
+								<div id="img_avatar">
+									<img  src="/media/{{ user.get_profile.avatar|default:"thum/Steven_Wells.jpg"  }}" class="img-thumbnail">
+								</div>
+								<a data-toggle="modal" href="#picture" class="btn btn-primary btn-xs">Editar foto</a>
+								 <div class="modal fade" id="picture">
+								    <div class="modal-dialog">
+								      <div class="modal-content">
+								        <div class="modal-header">
+								          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								          <h4 class="modal-title">Edit picture</h4>
+								        </div>
+								         <form id="img" action="/edit_profile/" enctype="multipart/form-data" method="post">{% csrf_token %}
+								        <div class="modal-body">
+			                                    <input type="file" name="avatar" id="id_avatar">
+								        </div>
+								        <div class="modal-footer">
+			                                        <input type="submit" value="guardar" class="btn btn-danger">
+			                            </div>
+								         </form>
+								      </div>
+								    </div>
+								  </div>
+								</center>
 							</div>
-							 <a data-toggle="modal" href="#picture" class="btn btn-primary btn-lg">Editar foto</a>
-							 <div class="modal fade" id="picture">
-							    <div class="modal-dialog">
-							      <div class="modal-content">
-							        <div class="modal-header">
-							          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							          <h4 class="modal-title">Edit picture</h4>
-							        </div>
-							         <form id="img" action="/edit_profile/" enctype="multipart/form-data" method="post">{% csrf_token %}
-							        <div class="modal-body">
-		                                    <input type="file" name="avatar" id="id_avatar">
-							        </div>
-							        <div class="modal-footer">
-		                                        <input type="submit" value="guardar" class="btn btn-danger">
-		                            </div>
-							         </form>
-							      </div><!-- /.modal-content -->
-							    </div><!-- /.modal-dialog -->
-							  </div><!-- /.modal -->
-								
-							
-							<div class="checkuser"></div>
-							</center>
 							<div class="panel-footer">
 								<div align="center">
 								<a href="" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Perfil"><span class="glyphicon glyphicon-user"></span></a>
@@ -91,11 +91,11 @@
 						{% for post in post %}
 							<div class="panel">
 								<div class="panel-heading">
-									<img src="/media/{{ post.asistente.get_profile.avatar }}" class="img-circle" width="24px"> <a href="" title="">{{ post.asistente.first_name }}</a> asistira a <a href="/pages/{{post.event.pk }}" title="">{{post.event }}</a>
-									<small class="timeago " title="{{ post.time|date:'Y-m-d H:i:s'}}"></small>
 									{% if user.is_staff %}
 									<a href="/remove/post/{{ post.pk}}" class="close">&times;</a>
 									{% endif%}
+									<img src="/media/{{ post.asistente.get_profile.avatar }}" class="img-circle" width="24px"> <a href="" title="">{{ post.asistente.first_name }}</a> asistira a <a href="/pages/{{post.event.pk }}" title="">{{post.event }}</a><br>
+									<small class="timeago " title="{{ post.time|date:'Y-m-d H:i:s'}}"></small>
 								</div>
 								<p>
 								<strong>{{ post.event.asistente.count }}</strong> participantes

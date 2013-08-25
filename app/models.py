@@ -71,6 +71,12 @@ class Post(models.Model):
     def __unicode__(self):
         return self.user    
 
+class Follow(models.Model):
+    user1 = models.ForeignKey(User,related_name="user_sigue")#usuario que sigue
+    user2 = models.ForeignKey(User,related_name="user_seguido")#usuario a quien sigue
+    def __unicode__(self):
+        return self.user1
+
 def create_user_profile(sender, **kwargs):
     """When creating a new user, make a profile for him."""
     u = kwargs["instance"]
