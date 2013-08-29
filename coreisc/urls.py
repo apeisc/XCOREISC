@@ -7,9 +7,10 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', index),
-    url(r'^pages/$', allpages),
-    url(r"^pages/(\d+)/$", pages),
+    url(r'^eventos/$', allpages),
+    url(r"^evento/(\d+)/$", pages),
     url(r"^auspicio/$", allpages),
+    url(r"^planifica/$", planifica),
     url(r"^auspicio/(\d+)/$", auspicio),
     url(r'^login/$', auth_view),
     url(r'^logout/$', logout),

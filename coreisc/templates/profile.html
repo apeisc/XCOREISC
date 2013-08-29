@@ -26,8 +26,8 @@
 					<tbody>
 						<tr>
 							<td width="100px" align="center">
-									<h3>{{count_follower.count}}</h3>
-									<small>Lo siguen</small>
+								<h3>{{count_follower.count}}</h3>
+								<small>Lo siguen</small>
 							</td>
 							<td width="100px" align="center">
 								<h3>{{count_follow.count}}</h3>	
@@ -44,7 +44,7 @@
 		<div class="col-lg-4">
 			<div class="list-group">
 			  <a href="#" class="list-group-item active">
-			    <h5 class="list-group-item-heading">Datos Personales</h5>
+			    Datos Personales
 			  </a>
 			  <a href="#" class="list-group-item">
 			    <h4 class="list-group-item-heading">Universidad</h4>
@@ -63,15 +63,31 @@
 					{% if user.is_staff %}
 					<a href="/remove/post/{{ post.pk}}" class="close">&times;</a>
 					{% endif%}
-					<img src="/media/{{ post.asistente.get_profile.avatar }}" class="img-circle" width="24px"> <a href="" title="">{{ post.asistente.first_name }}</a> asistira a <a href="/pages/{{post.event.pk }}" title="">{{post.event }}</a><br>
-					<small class="timeago " title="{{ post.time|date:'Y-m-d H:i:s'}}"></small>
+					<div class="media">
+				        <div class="pull-left">
+				        	<a href="/profile/{{post.asistente}}" title=""><img src="/media/{{ post.asistente.get_profile.avatar }}" width="30px"></a>
+				        </div>
+				        <div class="media-body">
+				        	<h5><a href="/profile/{{post.asistente}}" title="">{{ post.asistente.first_name }}</a>  <small>asistira a una conferencia</small><br><small class="timeago " title="{{ post.time|date:'Y-m-d H:i:s'}}"></small></h5>
+				        </div>
+				    </div> 
 				</div>
-				<p>
-				<strong>{{ post.event.asistente.count }}</strong> participantes
-				{% for participante in post.event.asistente.all %}
-					<a href="" title="" rel="tooltip" data-original-title="{{ participante }}"><img src="/media/{{ participante.get_profile.avatar }}" class="user_thumbs"  width="24px"></a>
-				{% endfor %}
-				</p>
+				<div class="panel-body">
+					<a href="/evento/{{post.event.pk}}" title=""><img src="/media/{{post.event.banner}}" alt="{{post.event.title}}" width="540px"></a>
+				</div>
+				<div class="panel-footer">
+					<div class="media">
+			        <div class="pull-left">
+			        	<h5 class="text-danger text-center"><strong>{{ post.event.fecha|date:'M'}}</strong></h5>
+			          	<h1>{{ post.event.fecha|date:'d'}}</h1>
+			        </div>
+			        <div class="media-body">
+			          <a href="/evento/{{post.event.pk}}" title=""><h4 class="media-heading">{{post.event.title}}</h4></a>
+			         <h6>{{ post.event.fecha|date:'h:i A'}}</h6> 
+
+			        </div>
+			      </div>
+				</div>	
 			</div>	
 			{% empty%}
 			<div class="panel">no hay ninguna publicacion hoy</div>

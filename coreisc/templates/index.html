@@ -23,8 +23,8 @@
 	    <div class="nav-collapse collapse bs-navbar-collapse">
 	      <ul class="nav navbar-nav">
 	      	<li class="active"><a href="#" title="">Inicio</a></li>
-	        <li><a href="./">Planificar</a></li>
-	        <li><a href="/pages/">Eventos</a></li>
+	        <li><a href="/planifica/">Planificar</a></li>
+	        <li><a href="/eventos/">Eventos</a></li>
 	        <li><a href="./">Conoce</a></li>
 	      </ul>
 	    </div>
@@ -41,7 +41,7 @@
         		<div class="row">
         			<div class="col-lg-3">
 						<div class="panel">
-							<div class="panel-heading clearfix">{{ user.get_profile.first_name }} {{user.get_profile.last_name}} ({{ user }})
+							<div class="panel-heading clearfix text-center">{{ user.get_full_name}} 
 							</div>
 							<div class="panel-body">
 								<center>
@@ -71,7 +71,7 @@
 							</div>
 							<div class="panel-footer">
 								<div align="center">
-								<a href="" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Perfil"><span class="glyphicon glyphicon-user"></span></a>
+								<a href="/profile/{{user}}" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Perfil"><span class="glyphicon glyphicon-user"></span></a>
 								<a href="" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Mensajes"><span class="glyphicon glyphicon-envelope"></span></a>{% if user.is_staff %}
 								<a href="/admin/" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Administracion"><span class="glyphicon glyphicon-cog"></span></a>{% endif%}
 								<a href="/logout/" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Salir"><span class="glyphicon glyphicon-off"></span></a>
@@ -80,44 +80,60 @@
 						</div>
 						<div class="list-group">
 						  <a href="#" class="list-group-item active">¿Que buscas?</a>
-						  <a href="#" class="list-group-item">Hoteles <span class="badge">14</span></a>
-						  <a href="#" class="list-group-item">Restaurants <span class="badge">18</span></a>
-						  <a href="#" class="list-group-item">Movilidades <span class="badge">5</span></a>
-						  <a href="#" class="list-group-item">Lugares Turisticos<span class="badge">8</span></a>
+						  <a href="#" class="list-group-item">Hoteles <span class="badge">{{ hotel.count}}</span></a>
+						  <a href="#" class="list-group-item">Restaurants <span class="badge">{{ restaurant.count}}</span></a>
+						  <a href="#" class="list-group-item">Movilidades <span class="badge">{{ movil.count}}</span></a>
+						  <a href="#" class="list-group-item">Lugares Turisticos<span class="badge">{{ lugar.count}}</span></a>
 						</div>
         			</div>
         			{% block content %}
 					<div class="col-lg-6">
-						{% for post in post %}
+						{% if follow_post.count = 0 %}
 							<div class="panel">
+								<div class="panel-heading">
+									Te sugerimos seguir a:
+								</div>
+								<div class="panel-body"></div>
+							</div>
+						{% endif %}
+						{% for post in post %}
+						 {%for follow_post in follow_post%}
+						 	{% if post.asistente = follow_post.user2 %}
+						 	<div class="panel">
 								<div class="panel-heading">
 									{% if user.is_staff %}
 									<a href="/remove/post/{{ post.pk}}" class="close">&times;</a>
 									{% endif%}
-									<img src="/media/{{ post.asistente.get_profile.avatar }}" class="img-circle" width="24px"> <a href="" title="">{{ post.asistente.first_name }}</a> asistira a <a href="/pages/{{post.event.pk }}" title="">{{post.event }}</a><br>
-									<small class="timeago " title="{{ post.time|date:'Y-m-d H:i:s'}}"></small>
+									<div class="media">
+								        <div class="pull-left">
+								        	<a href="/profile/{{post.asistente}}" title=""><img src="/media/{{ post.asistente.get_profile.avatar }}" width="30px"></a>
+								        </div>
+								        <div class="media-body">
+								        	<h5><a href="/profile/{{post.asistente}}" title="">{{ post.asistente.first_name }}</a>  <small>asistira a una conferencia</small><br><small class="timeago " title="{{ post.time|date:'Y-m-d H:i:s'}}"></small></h5>
+								        </div>
+								    </div> 
 								</div>
-								<p>
-								<strong>{{ post.event.asistente.count }}</strong> participantes
-								{% for participante in post.event.asistente.all %}
-									<a href="" title="" rel="tooltip" data-original-title="{{ participante }}"><img src="/media/{{ participante.get_profile.avatar }}" class="user_thumbs"  width="24px"></a>
-								{% endfor %}
-								</p>
+								<div class="panel-body">
+									<a href="/evento/{{post.event.pk}}" title=""><img src="/media/{{post.event.banner}}" alt="{{post.event.title}}" width="540px"></a>
+								</div>
 								<div class="panel-footer">
 									<div class="media">
-							        <a class="pull-left" href="#">
-							          <img class="media-object" src="/media/{{ post.asistente.get_profile.avatar }}" style="width: 64px; height: 64px;">
-							        </a>
-							        <div class="media-body">
-							          <h4 class="media-heading">{{post.asistente}}</h4>
-							          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-							        </div>
+								        <div class="pull-left">
+								        	<h5 class="text-danger text-center"><strong>{{ post.event.fecha|date:'M'}}</strong></h5>
+								          	<h1>{{ post.event.fecha|date:'d'}}</h1>
+								        </div>
+								        <div class="media-body">
+								          <a href="/evento/{{post.event.pk}}" title=""><h4 class="media-heading">{{post.event.title}}</h4></a>
+								         <h6>{{ post.event.fecha|date:'h:i A'}}</h6> 
+								        </div>
 							      </div>
 								</div>	
-							</div>	
-							{% empty%}
-							<div class="panel">no hay ninguna publicacion hoy</div>
-							{% endfor %}
+							</div>
+						 	{% endif%}
+						    {% endfor %}
+						{% empty%}
+						<div class="panel">no hay ninguna publicacion hoy</div>
+						{% endfor %}
 					</div>
 					<div class="col-lg-3">
 						<legend>Recomendaciones</legend>

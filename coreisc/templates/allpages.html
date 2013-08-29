@@ -1,32 +1,33 @@
 {% extends "index.html" %}
 {% block content %}
 {% load staticfiles %}
-<div class="col-lg-9">
+<div class="row">
 	{% for event in event %}
-	<div class="panel">
-		<div class="panel-heading">
-			<a href="/pages/{{ event.pk }}" title="">{{ event.title }}</a>
-		</div>
-		<span><img src="/media/{{ event.ponente.avatar }}" class="img-circle" width="40px;">Ponente: {{ event.ponente }}</span>	
-		<p class="label label-info">
-			{{ event.asistente.count }} persona(s) que asistiran a este evento.
-		</p>
-		<p class=" label label-danger"><span class="glyphicon glyphicon-calendar"></span>
-		{{ event.fecha }} </p>
-		<p class=" label label-danger">Lugar: Auditorio</p>
-		<div class="panel-footer">
-				{% if asis %}
-				<a href="/remove/{{ event.pk }}" class="btn btn-success remove"><button type="button" class="close">&times;</button>Asistir&eacute; </a>
-				{% else %}
-				<a href="/add/{{ event.pk }}" class="btn btn-danger" id="{{event.pk}}" class="add" title="">Asistir</a>
-				{% endif %}
-			<a href="" class="btn btn-info" title="">Recomendar</a>
+	<div class="col-lg-4">
+		<div class="panel">
+			<div class="panel-heading">
+				<div class="media">
+		        <div class="pull-left">
+		        	<h5 class="text-danger text-center"><strong>{{ event.fecha|date:'M'}}</strong></h5>
+		          	<h1>{{ event.fecha|date:'d'}}</h1>
+		        </div>
+		        <div class="media-body">
+		          <a href="/evento/{{event.pk}}" title=""><h4 class="media-heading">{{event.title}}</h4></a>
+		         <h6>{{ event.fecha|date:'h:i A'}}</h6> 
+		        </div>
+		      </div>
+			</div>	
+			<div class="panel-body">
+				<span><img src="/media/{{ event.ponente.avatar }}" class="img-circle" width="40px;">Ponente: {{ event.ponente }}</span>	
+			<p class=" label label-danger"><span class="glyphicon glyphicon-calendar"></span>
+			{{ event.fecha }} </p>
+			</div>
 		</div>
 	</div>
 	{% empty %}
-	<div class="panel">
-		No hay eventos
-	</div>
+		<div class="panel">
+			No hay eventos
+		</div>
 	{% endfor %}
 </div>
 {% endblock %}				

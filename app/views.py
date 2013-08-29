@@ -11,7 +11,7 @@ from django import forms
 from django.conf import settings
 from PIL import Image as PImage
 from os.path import join as pjoin
-
+from datetime import datetime 
 class EventForm(ModelForm):
     class Meta:
         model = Events
@@ -34,16 +34,27 @@ class UserProfileForm(forms.ModelForm):
         avatar = forms.ImageField()
 
 def index(request):
-    post = Post.objects.all().order_by('-pk')
-    publi = Patrocina.objects.all().order_by('-pk')
-    form = UserProfileForm()
-    form2 = UserForm()
-    d =  dict(post=post,publi=publi,form=form,form2=form2)
     if request.user.is_authenticated():
+        follow_post = Follow.objects.all().filter(user1=request.user)
+        post        = Post.objects.all().order_by('-pk')
+        publi       = Patrocina.objects.all().order_by('-pk')
+        hotel       = Patrocina.objects.all().filter(tipo = 1)
+        restaurant  = Patrocina.objects.all().filter(tipo = 2)
+        movil       = Patrocina.objects.all().filter(tipo = 3)
+        lugar       = Patrocina.objects.all().filter(tipo = 4)
+        d =  dict(post=post,
+            publi=publi,
+            follow_post=follow_post,
+            hotel=hotel,
+            movil = movil,
+            restaurant=restaurant,
+            lugar=lugar)
         return render_to_response("index.html", d, RequestContext(request))
     else:
+        form = UserProfileForm()
+        form2 = UserForm()
+        d =  dict(form=form,form2=form2)
         return render_to_response("registration/login.html", d, RequestContext(request))
-
 
 def process(request):
     if request.method=="POST": 
@@ -80,14 +91,18 @@ def auspicio(request, pk):
 
 def checkUser(request):
     if request.is_ajax(): 
-        try:
-            very = User.objects.get(username=request.GET.get('b',''))
-        except User.DoesNotExist:
-            very = None
-        if very:
-            msg = False
+        data = request.GET.get('b','')
+        if data is not 'admin':
+            try:
+                very = User.objects.get(username=data)
+            except User.DoesNotExist:
+                very = None
+            if very:
+                msg = False
+            else:
+                msg = True
         else:
-            msg = True
+            msg=False
     else:
         msg = False
     return HttpResponse(msg)
@@ -232,6 +247,12 @@ def edit_user(request):
             im.save(imfn, "JPEG")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  
 
+#planifica seccion
+def planifica(request):
+    event = Events.objects.all().order_by('fecha').filter(asistente = request.user)
+    d =  dict(event=event)
+    return render_to_response("planifica.html", d, RequestContext(request))
+
 #seccion user profile
 def account(request, username):
     try:
@@ -284,11 +305,12 @@ def auth_view(request):
         username = request.POST.get('username','')
         password = request.POST.get('password','')
         user = auth.authenticate(username=username, password=password)
-        try:
+        '''try:
             estado = UserProfile.objects.get(user2=username,active=True)
         except UserProfile.DoesNotExist:
             estado = None
-        if estado is not None and user is not None:
+        if estado is not None and user is not None:'''
+        if user is not None:
             auth.login(request,user)
             return HttpResponseRedirect('/')
         else:

@@ -10,6 +10,12 @@ SEXO = (
     ('M', 'Masculino'),
     ('F', 'Femenino'),
 )
+ANUNCIO = (
+    ('1', 'Hoteles'),
+    ('2', 'Restaurant'),
+    ('3', 'Movilidades'),
+    ('4', 'Lugares Turisticos'),
+)
 class UserProfile(models.Model):
     tipo = models.CharField(max_length=1, verbose_name='Tipo',choices=TIPOS,null=False)
     n_trans = models.CharField(max_length=20, verbose_name='N Transaccion',unique=True,error_messages={'unique': 'Ya forma parte del X Coreisc. Te esperamos'})#revisar n de transsaccion longitud
@@ -55,6 +61,7 @@ class Events(models.Model):
 
 class Patrocina(models.Model):
     nombre = models.CharField(max_length=200)
+    tipo = models.CharField(max_length=1, verbose_name='Tipo',choices=ANUNCIO,null=False)
     body = models.TextField(verbose_name='Caracteristicas')
     direccion = models.CharField(max_length=200)
     recomienda = models.ManyToManyField(User,blank=True)
@@ -62,7 +69,6 @@ class Patrocina(models.Model):
     bannerIndex = models.ImageField("Banner 250x250", upload_to="index/", blank=True)
     def __unicode__(self):
         return self.nombre
-
 
 class Post(models.Model):
     asistente = models.ForeignKey(User)
