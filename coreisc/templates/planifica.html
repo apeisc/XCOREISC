@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+{% block content %}
+{% load staticfiles %}
+<div class="col-lg-9">
+      <div class="list-group">
+        <a href="" class="list-group-item active" title="">Lunes</a>
+        <a href="#" class="list-group-item">Entrega de materiales</a>
+      {% for event in event %}
+      {% if event.fecha|date:'d/m/Y' = '07/04/2013' %}
+        <a href="/evento/{{event.pk}}" class="list-group-item">{{event.title}}
+        <span class="badge">{{event.fecha|date:'h:i A'}}</span></a>
+      {% endif %}
+      {% endfor %}
+      {{hoy}}
+      </div>
+  <div class="panel">
+    <!-- Default panel contents -->
+    <div class="panel-heading">MARTES</div>
+    <div class="panel-body">
+      <p></p>
+    </div>
+  </div>
+  <div class="panel">
+    <!-- Default panel contents -->
+    <div class="panel-heading">MIERCOLES</div>
+    <div class="panel-body">
+      <p></p>
+    </div>
+  </div>
+  <div class="panel">
+    <!-- Default panel contents -->
+    <div class="panel-heading">JUEVES</div>
+    <div class="panel-body">
+      <p></p>
+    </div>
+  </div>
+</div>
+{% endblock %}        

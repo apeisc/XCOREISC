@@ -1,0 +1,83 @@
+{% extends "index.html" %}
+{% block content %}
+{% load staticfiles %}
+<div class="col-lg-9">
+	{% if event.banner %}<div class="panel panel-default" style="background:url(/media/{{ event.banner }});">
+	{% else %}
+	<div class="panel panel-default">
+		{% endif%}
+		<p class="titulo">
+			{{ event.title }}
+		</p>
+		<span class=" pull-right" rel="tooltip" data-original-title="Ponente: {{ event.ponente }}" data-placement="bottom"><img src="/media/{{ event.ponente.avatar }}" class="img-circle" width="80px;"></span>	
+		</br></br></br>
+		{% if event.banner %}
+		</br></br></br></br></br></br></br>
+		{% endif %}
+		<a data-toggle="modal" href="#asistentes"><p class="label label-info">
+			{{ event.asistente.count }} persona(s) que asistiran a este evento.
+		</p></a>
+		<div class="modal fade" id="asistentes">
+		    <div class="modal-dialog">
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		          <h4 class="modal-title">Asistentes a {{event.title}}</h4>
+		        </div>
+		        <div class="modal-body">
+		        	<ul class="list-group">
+		                {% for asis in event.asistente.all %}
+		                <a href="/profile/{{asis}}" class="list-group-item"><img src="/media/{{asis.get_profile.avatar}}" alt="" width="24px"> {{asis.get_full_name}}</a>
+		                {% endfor %}
+		                {% if event.asistente.count == 0 %}
+		                	No hay asistentes en este evento.
+		                {% endif %}
+		            </ul>
+		        </div>
+		      </div>
+		    </div>
+		</div>
+		<div class="panel-footer">
+			<div class="btn-group">
+				<a href="" class="btn btn-warning btn-sm" title=""><strong>Descargar</strong></a>
+				{% if asis %}
+					<a href="/remove/event/{{ event.pk }}" class="btn btn-primary btn-sm" id="following">
+						<strong>Asistir&eacute; <span class="glyphicon glyphicon-ok"></span></strong>
+					</a>
+				{% else %}
+				<a href="#addevent" data-toggle="modal" class="btn btn-default btn-sm" id="{{event.pk}}" class="add" title="">
+					<strong>Asistir</strong>
+				</a>
+				{% endif %}
+			</div>
+			<div class="modal fade" id="addevent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			    <div class="modal-dialog">
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			          <h4 class="modal-title">Compartir con los demas esto.</h4>
+			        </div>
+			        <form action="/add/event/{{ event.pk }}/" method="post">{% csrf_token %}
+			        <div class="modal-body">
+			        		<textarea id="body" class="form-control" placeholder="Comenta algo sobre este evento" name="body" class="vLargeTextField"></textarea>   	
+			        </div>
+			        <div class="modal-footer">
+			          
+			          <input type="submit" class="btn btn-danger" value="Compartir">
+			        </div>
+			        </form>
+			      </div>
+			    </div>
+			  </div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			Caracteristicas:
+		</div>
+		<div class="panel-heading">
+			{{ event.body }}
+		</div>
+	</div>
+</div>
+{% endblock %}				

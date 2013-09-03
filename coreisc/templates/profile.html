@@ -1,0 +1,101 @@
+{% extends "index.html" %}
+{% block content %}
+{% load staticfiles %}
+<div class="col-lg-9">
+	<div class="panel panel-default">
+		<!--<div class="panel-heading">{{username.get_full_name}}</div>-->
+		<table width="100%">
+		<tbody><tr>
+			<td valign="top">
+				<a href=""><img src="/media/{{username.get_profile.avatar}}" width="120" height="120" class="img-polaroid"></a>
+			</td>
+			<td valign="top">
+				<h3>
+					{{ username.get_full_name}}
+					{% if username != user %}
+						{% if follow %}
+						<a href="/nofollow/{{ username }}" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-heart"></i> Siguiendo</a>
+						{% else %}
+						<a href="/follow/{{ username }}" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-heart"></i> Segir</a>
+						{% endif %}
+					{% endif %}
+				</h3>
+			</td>
+			<td valign="top" align="right">
+				<table>
+					<tbody>
+						<tr>
+							<td width="100px" align="center">
+								<h3>{{count_follower.count}}</h3>
+								<small>Lo siguen</small>
+							</td>
+							<td width="100px" align="center">
+								<h3>{{count_follow.count}}</h3>	
+								<small>esta siguiendo</small>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr></tbody>
+		</table>
+	</div>
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="list-group">
+			  <a href="#" class="list-group-item active">
+			    Datos Personales
+			  </a>
+			  <a href="#" class="list-group-item">
+			    <h4 class="list-group-item-heading">Universidad</h4>
+			    <p class="list-group-item-text">{{username.get_profile.get_uni_display}}</p>
+			  </a>
+			  <a href="#" class="list-group-item">
+			    <h4 class="list-group-item-heading">Ciclo</h4>
+			    <p class="list-group-item-text">Quinto</p>
+			  </a>
+			</div>
+		</div>
+		<div class="col-lg-8">
+			{% for post in post %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					{% if user.is_staff %}
+					<a href="/remove/post/{{ post.pk}}" class="close">&times;</a>
+					{% endif%}
+					<div class="media">
+				        <div class="pull-left">
+				        	<a href="/miembro/{{post.asistente}}" title=""><img src="/media/{{ post.asistente.get_profile.avatar }}" width="30px"></a>
+				        </div>
+				        <div class="media-body">
+				        	<h5><a href="/miembro/{{post.asistente}}" title="">{{ post.asistente.first_name }}</a>  <small>asistira a una conferencia</small><br><small class="timeago " title="{{ post.time|date:'Y-m-d H:i:s'}}"></small></h5>
+				        </div>
+				    </div> 
+				</div>
+				{%if post.body%}
+					<blockquote><small>{{post.body}}</small></blockquote>
+				{%endif%}
+				<div class="panel-body-img">
+					<a href="/evento/{{post.event.pk}}" title=""><img src="/media/{{post.event.banner}}" alt="{{post.event.title}}"></a>
+				</div>
+				<div class="panel-footer">
+					<div class="media">
+			        <div class="pull-left">
+			        	<h5 class="text-danger text-center"><strong>{{ post.event.fecha|date:'M'}}</strong></h5>
+			          	<h1>{{ post.event.fecha|date:'d'}}</h1>
+			        </div>
+			        <div class="media-body">
+			          <a href="/evento/{{post.event.pk}}" title=""><h4 class="media-heading">{{post.event.title}}</h4></a>
+			         <h6>{{ post.event.fecha|date:'h:i A'}}</h6> 
+
+			        </div>
+			      </div>
+				</div>	
+			</div>	
+			{% empty%}
+			<div class="panel panel-default"><div class="panel-body">{{ username.first_name }} no tiene ninguna actividad aun.</div></div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}				

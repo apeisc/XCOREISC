@@ -1,0 +1,281 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Coreisc UNPRG Plataforma{% endblock %}</title>
+        <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+        <link rel="stylesheet" href="{% static "css/bootstrap-glyphicons.css" %}">
+        
+        <link rel="stylesheet" href="{% static "css/main.css" %}">
+    </head>
+    <body>
+    	<div id="fb-root"></div>
+									<script>(function(d, s, id) {
+									  var js, fjs = d.getElementsByTagName(s)[0];
+									  if (d.getElementById(id)) return;
+									  js = d.createElement(s); js.id = id;
+									  js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1&appId=239952139479434";
+									  fjs.parentNode.insertBefore(js, fjs);
+									}(document, 'script', 'facebook-jssdk'));</script>
+    <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a href="/" class="navbar-brand">COREISC</a>
+	    </div>
+	    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+	      <ul class="nav navbar-nav">
+	        <li>
+	          <a href="/planifica">Planifica</a>
+	        </li>
+	        <li>
+	          <a href="/eventos">Eventos</a>
+	        </li>
+	        <li>
+	          <a href="/components">Components</a>
+	        </li>
+	      </ul>
+	    </nav>
+	  </div>
+	</header>
+        <section>
+        	<div class="container">
+        		<div class="row">
+        			<div class="col-lg-3  SecUser">
+						<div class="panel panel-default">
+							<div class="panel-heading clearfix text-center">{{ user.get_full_name}} 
+							</div>
+							<div class="panel-body">
+								<center>
+								<div id="img_avatar">
+									<img  src="/media/{{ user.get_profile.avatar|default:"thum/Steven_Wells.jpg"  }}" class="img-thumbnail">
+								</div>
+								<a data-toggle="modal" href="#picture" class="btn btn-primary btn-xs"><strong>Editar foto</strong></a>
+								 <div class="modal fade" id="picture">
+								    <div class="modal-dialog">
+								      <div class="modal-content">
+								        <div class="modal-header">
+								          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								          <h4 class="modal-title">Edit picture</h4>
+								        </div>
+								         <form id="img" action="/edit_miembro/" enctype="multipart/form-data" method="post">{% csrf_token %}
+								        <div class="modal-body">
+			                                <input type="file" name="avatar" id="id_avatar">
+								        </div>
+								        <div class="modal-footer">
+			                                <input type="submit" value="guardar" class="btn btn-danger">
+			                            </div>
+								         </form>
+								      </div>
+								    </div>
+								  </div>
+								</center>
+							</div>
+							<div class="panel-footer">
+								<div align="center">
+								<a href="/miembro/{{user}}" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Perfil"><span class="glyphicon glyphicon-user"></span></a>
+								<a href="" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Mensajes"><span class="glyphicon glyphicon-envelope"></span></a>{% if user.is_staff %}
+								<a href="/admin/" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Administracion"><span class="glyphicon glyphicon-cog"></span></a>{% endif%}
+								<a href="/logout/" title="" class="btn btn-primary btn-sm" rel="tooltip" data-original-title="Salir"><span class="glyphicon glyphicon-off"></span></a>
+								</div>
+							</div>	
+						</div>
+						<div class="list-group">
+						  <a href="#" class="list-group-item active">¿Que buscas?</a>
+						  <a href="#" class="list-group-item">Hoteles <span class="badge">{{ hotel.count}}</span></a>
+						  <a href="#" class="list-group-item">Restaurants <span class="badge">{{ restaurant.count}}</span></a>
+						  <a href="#" class="list-group-item">Movilidades <span class="badge">{{ movil.count}}</span></a>
+						  <a href="#" class="list-group-item">Lugares Turisticos<span class="badge">{{ lugar.count}}</span></a>
+						</div>
+        			</div>
+        			{% block content %}
+        			<!-- columna central-->
+					<div class="col-lg-6">
+						{% for alert in alert %}
+							{% if alert.visto %}
+							{%else%}
+							<div class="alert alert-{{alert.tipo}}"><a href="/alerta/{{alert.pk}}" class="close">&times;</a>
+								<strong>{{alert.get_tipo_display}}:</strong>
+								<p>{{alert.mensaje}}</p>
+							</div>
+							{% endif %}
+						{% endfor %}
+						<!--<form action="/posting/" method="post" class="form-horizontal">
+							{% csrf_token %}
+						<div class="panel panel-default">
+							<div class="panel-heading">Publica Algo interesante</div>
+							<div class="form-group">
+								<div class="col-lg-12">
+									<textarea id="id_body" placeholder="Escribe tu publicacion aqui." class="form-control" rows="2"  name="body"></textarea>
+								</div>
+							</div>
+							<div class="panel-footer">
+								<div>
+									<input type="submit" class="btn btn-danger" value="Publicar">
+								</div>
+							</div>
+						</div>
+					</form>-->
+						{% if follow_post.count = 0 %}
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									Te sugerimos seguir a:
+								</div>
+								<ul class="list-group">
+								{%for all in user_all%}
+									{% if  all.uni == user.uni and all != user  %}
+										<li class="list-group-item">
+											<a href="/miembro/{{all}}"><img src="/media/{{all.get_profile.avatar}}" width="32px">
+											{{all.get_full_name}}</a>
+											<div class="pull-right">
+												<a href="/follow/{{all}}" class="btn btn-danger" title="">Seguir</a>
+											</div>
+										</li>
+									{%endif%}
+								{%endfor%}
+							  </ul>
+							</div>
+						{% endif %}
+						{% for post in post %}
+						 {%for follow_post in follow_post%}
+						 	{% if post.asistente = follow_post.user2  or post.asistente = user %}
+						 	<div class="panel panel-default">
+								<div class="panel-heading">
+									{% if user.is_staff %}
+									<a href="/remove/post/{{ post.pk}}" class="close">&times;</a>
+									{% endif%}
+									<div class="media">
+								        <div class="pull-left">
+								        	<a href="/miembro/{{post.asistente}}" title=""><img src="/media/{{ post.asistente.get_profile.avatar }}" width="30px"></a>
+								        </div>
+								        <div class="media-body">
+								        	<h5><a href="/miembro/{{post.asistente}}" title="">{{ post.asistente.first_name }}</a>
+								        	{% if post.event %}
+								        		<small>asistira a una conferencia</small>
+								        	{%else%}
+								        		<small>a hecho una publicaci&oacute;n</small>
+								        	{%endif%}
+								        		<br>
+								        		<small class="timeago " title="{{ post.time|date:'Y-m-d H:i:s'}}"></small></h5>
+
+								        </div>
+								    </div> 
+								</div>
+								{%if post.body%}
+								<blockquote><small>{{post.body}}</small></blockquote>
+								{%endif%}
+								{% if post.event %}
+								<div class="panel-body-img">
+									<a href="/evento/{{post.event.pk}}" title=""><img src="/media/{{post.event.banner}}" alt="{{post.event.title}}"></a>
+								{%endif%}
+								</div>
+								<div class="panel-footer">
+									{% if post.event %}
+									<div class="media">
+								        <div class="pull-left">
+								        	<h5 class="text-danger text-center"><strong>{{ post.event.fecha|date:'M'}}</strong></h5>
+								          	<h1>{{ post.event.fecha|date:'d'}}</h1>
+								        </div>
+								        <div class="media-body">
+								          <a href="/evento/{{post.event.pk}}" title=""><h4 class="media-heading">{{post.event.title}}</h4></a>
+								         <h6>{{ post.event.fecha|date:'h:i A'}}</h6> 
+								        </div>
+							        </div>
+							      	{%endif%}
+									<div class="fb-comments" data-href="http://example.com" data-width="530"></div>
+								</div>	
+							</div>
+						 	{% endif%}
+						    {% endfor %}
+						{% empty%}
+						<div class="panel panel-default"><div class="panel-body">no hay ninguna publicacion hoy</div></div>
+						{% endfor %}
+					</div>
+					<div class="col-lg-3">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h5>Te sugerimos seguir a:<br>
+								<small><abbr title="Filtro:{{user.get_profile.get_uni_display}}">Filtro</abbr></small></h5>
+							</div>
+							<ul class="list-group">
+							{%for all in user_all%}
+							{% for follow_post in follow_post%}
+							{%if follow_post.user2 != all %}
+								{% if  all.uni == user.uni and all != user  %}
+									<li class="list-group-item">
+										<a href="/miembro/{{all}}"><img src="/media/{{all.get_profile.avatar}}" width="32px">
+										<strong>{{all.first_name}}</strong></a>
+										<div class="pull-right">
+											<a href="/follow/{{all}}" class="btn btn-danger" title="">Seguir</a>
+										</div>
+									</li>
+								{%endif%}
+							{% endif %}
+							{% endfor %}
+							{%endfor%}
+						  </ul>
+						</div>
+						{% for publi in publi %}
+						<div class="panel panel-default">
+						  <div class="panel-heading">
+						  	<div class="media">
+						  		<div class="pull-left"  rel="tooltip" data-original-title="{{ publi.recomienda.count }} recomendaron esto" data-placement="bottom">
+						        	<h4 class="text-danger text-center"><strong>+{{ publi.recomienda.count }}</strong></h4>
+						        </div>
+						  		<div class="media-body">
+						  			<h5><a href="/auspicio/{{ publi.pk }}" title="">{{ publi.nombre }}</a>
+						  				<br><small><a href="" title="">{{publi.get_tipo_display}}</a></small></h5>
+						  		</div>
+						  	</div> 
+						  </div>
+						  <div class="panel-body-img">
+						  	<a href="/auspicio/{{ publi.pk }}" title=""><img src="/media/{{ publi.banner }}" ></a>
+						  </div>
+						</div>
+			
+						{% endfor%}
+					</div>
+					{% endblock %}
+				</div>
+        	</div>
+        </section>
+        <footer>
+	        <div class="container"><p>© Coreisc UNPRG 2014.</div>	
+	    </footer>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="{% static "js/bootstrap.js" %}"></script>
+        <script src="{% static "js/bootstrap.min.js" %}"></script>
+        <script src="{% static "js/jquery.timeago.js" %}"></script>
+        <script src="{% static "js/jquery.timeago.es.js" %}"></script>
+        <script src="{% static "js/coreisc-home.js" %}"></script>
+        <script type="text/javascript">
+		    $("[rel=tooltip]").tooltip();
+		    $(".timeago").timeago();
+			/*$('#img').submit(function(e){
+		    	data2 = $('#img').serialize(),
+					console.log(data2);
+		    		$.ajax({ // create an AJAX call...
+			          data: 'b='+$('#img').serialize(), // get the form data
+			          type: "GET",
+			          url: "/accounts/edit/user/", // the file to call
+			          beforeSend: function(response){
+			            $('.checkuser').html('<img src="http://www.goodleads.com/content/styles/images/preloader.gif" width="30px">');
+			          },
+			          success: function(response) { // on success..
+			             $('.checkuser').html(response);
+			          }
+			      	});
+		    	return false;
+		    });*/
+
+		</script>
+    </body>
+</html>
