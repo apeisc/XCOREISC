@@ -1,13 +1,8 @@
 {% extends "index.html" %}
 {% block content %}
 {% load staticfiles %}
-<<<<<<< HEAD
 <div class="col-sm-9 col-md-9 col-lg-9">
 	<div class="panel panel-default">
-=======
-<div class="col-lg-9">
-	<div class="panel">
->>>>>>> 8e6e054ba727a25830c8904e1d79682aa9710689
 		<!--<div class="panel-heading">{{username.get_full_name}}</div>-->
 		<table width="100%">
 		<tbody><tr>
@@ -24,7 +19,6 @@
 						<a href="/follow/{{ username }}" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-heart"></i> Segir</a>
 						{% endif %}
 					{% endif %}
-<<<<<<< HEAD
           {% if user.is_staff%}
           <a data-toggle="modal" href="#notificar" class="btn btn-danger btn-sm">Notificar</a>
           <div class="modal fade" id="notificar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -59,8 +53,6 @@
             </div>
           </div>
           {% endif %}
-=======
->>>>>>> 8e6e054ba727a25830c8904e1d79682aa9710689
 				</h3>
 			</td>
 			<td valign="top" align="right">
@@ -83,22 +75,14 @@
 		</table>
 	</div>
 	<div class="row">
-<<<<<<< HEAD
 		<div class="col-sm-4 col-md-4 col-lg-4">
-=======
-		<div class="col-lg-4">
->>>>>>> 8e6e054ba727a25830c8904e1d79682aa9710689
 			<div class="list-group">
 			  <a href="#" class="list-group-item active">
 			    Datos Personales
 			  </a>
 			  <a href="#" class="list-group-item">
 			    <h4 class="list-group-item-heading">Universidad</h4>
-<<<<<<< HEAD
 			    <p class="list-group-item-text">{{username.get_profile.get_uni_display}}</p>
-=======
-			    <p class="list-group-item-text">Universidad Nacional Pedro Ruiz Gallo</p>
->>>>>>> 8e6e054ba727a25830c8904e1d79682aa9710689
 			  </a>
 			  <a href="#" class="list-group-item">
 			    <h4 class="list-group-item-heading">Ciclo</h4>
@@ -106,22 +90,15 @@
 			  </a>
 			</div>
 		</div>
-<<<<<<< HEAD
 		<div class="col-sm-8 col-md-8 col-lg-8">
 			{% for post in post %}
 			<div class="panel panel-default">
-=======
-		<div class="col-lg-8">
-			{% for post in post %}
-			<div class="panel">
->>>>>>> 8e6e054ba727a25830c8904e1d79682aa9710689
 				<div class="panel-heading">
 					{% if user.is_staff %}
 					<a href="/remove/post/{{ post.pk}}" class="close">&times;</a>
 					{% endif%}
 					<div class="media">
 				        <div class="pull-left">
-<<<<<<< HEAD
 				        	<a href="/miembro/{{post.asistente}}" title=""><img src="/media/{{ post.asistente.get_profile.avatar }}" width="30px"></a>
 				        </div>
 				        <div class="media-body">
@@ -134,17 +111,6 @@
 				{%endif%}
 				<div class="panel-body-img">
 					<a href="/evento/{{post.event.pk}}" title=""><img src="/media/{{post.event.banner}}" alt="{{post.event.title}}"></a>
-=======
-				        	<a href="/profile/{{post.asistente}}" title=""><img src="/media/{{ post.asistente.get_profile.avatar }}" width="30px"></a>
-				        </div>
-				        <div class="media-body">
-				        	<h5><a href="/profile/{{post.asistente}}" title="">{{ post.asistente.first_name }}</a>  <small>asistira a una conferencia</small><br><small class="timeago " title="{{ post.time|date:'Y-m-d H:i:s'}}"></small></h5>
-				        </div>
-				    </div> 
-				</div>
-				<div class="panel-body">
-					<a href="/evento/{{post.event.pk}}" title=""><img src="/media/{{post.event.banner}}" alt="{{post.event.title}}" width="540px"></a>
->>>>>>> 8e6e054ba727a25830c8904e1d79682aa9710689
 				</div>
 				<div class="panel-footer">
 					<div class="media">
@@ -161,11 +127,7 @@
 				</div>	
 			</div>	
 			{% empty%}
-<<<<<<< HEAD
 			<div class="panel panel-default"><div class="panel-body">{{ username.first_name }} no tiene ninguna actividad aun.</div></div>
-=======
-			<div class="panel">no hay ninguna publicacion hoy</div>
->>>>>>> 8e6e054ba727a25830c8904e1d79682aa9710689
 			{% endfor %}
 		</div>
 	</div>

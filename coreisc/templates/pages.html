@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% extends "index.html" %}
 {% block content %}
 {% load staticfiles %}
@@ -81,65 +80,4 @@
 		</div>
 	</div>
 </div>
-=======
-{% extends "index.html" %}
-{% block content %}
-{% load staticfiles %}
-<div class="col-lg-9">
-	{% if event.banner %}<div class="panel" style="background:url(/media/{{ event.banner }});">
-	{% else %}
-	<div class="panel">
-		{% endif%}
-		<p class="titulo">
-			{{ event.title }}
-		</p>
-		<span class=" pull-right" rel="tooltip" data-original-title="Ponente: {{ event.ponente }}" data-placement="bottom"><img src="/media/{{ event.ponente.avatar }}" class="img-circle" width="80px;"></span>	
-		</br></br></br>
-		{% if event.banner %}
-		</br></br></br></br></br></br></br>
-		{% endif %}
-		<a data-toggle="modal" href="#asistentes"><p class="label label-info">
-			{{ event.asistente.count }} persona(s) que asistiran a este evento.
-		</p></a>
-		<div class="modal fade" id="asistentes">
-		    <div class="modal-dialog">
-		      <div class="modal-content">
-		        <div class="modal-header">
-		          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		          <h4 class="modal-title">Asistentes a {{event.title}}</h4>
-		        </div>
-		        <div class="modal-body">
-		        	<ul class="list-group">
-		                {% for asis in event.asistente.all %}
-		                <a href="/profile/{{asis}}" class="list-group-item"><img src="/media/{{asis.get_profile.avatar}}" alt="" width="24px"> {{asis.get_full_name}}</a>
-		                {% endfor %}
-		            </ul>
-		        </div>
-		      </div>
-		    </div>
-		</div>
-		<div class="panel-footer">
-				{% if asis %}
-				<a href="/remove/event/{{ event.pk }}" class="btn btn-success remove"><button type="button" class="close">&times;</button>Asistir&eacute; </a>
-				{% else %}
-				<a href="/add/event/{{ event.pk }}" class="btn btn-danger" id="{{event.pk}}" class="add" title="">Asistir</a>
-				{% endif %}
-			<a href="" class="btn btn-info" title="">Descargas</a>
-			<div class="pull-right">
-				<div class=" label label-danger"><span class="glyphicon glyphicon-calendar"></span>
-				{{ event.fecha }} </div>
-				<div class=" label label-danger">Lugar: Auditorio</div>
-			</div>
-		</div>
-	</div>
-	<div class="panel">
-		<div class="panel-heading">
-			Caracteristicas:
-		</div>
-		<p>
-			{{ event.body }}
-		</p>
-	</div>
-</div>
->>>>>>> 8e6e054ba727a25830c8904e1d79682aa9710689
 {% endblock %}				

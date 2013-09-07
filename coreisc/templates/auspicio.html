@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% extends "index.html" %}
 {% block content %}
 {% load staticfiles %}
@@ -38,44 +37,4 @@
 		</p>
 	</div>
 </div>
-=======
-{% extends "index.html" %}
-{% block content %}
-{% load staticfiles %}
-<div class="col-lg-9">
-	{% if publi.banner %}<div class="panel" style="background:url(/media/{{ publi.banner }});">
-	{% else %}
-	<div class="panel">
-		{% endif%}
-		<p class="titulo">
-			{% block title %}{{ publi.nombre }}{% endblock %}
-		</p>
-		</br></br></br>
-		{% if publi.banner %}
-		</br></br></br></br></br></br></br>
-		{% endif %}
-		<p class="label label-info">
-			{{ publi.recomienda.count }} persona(s) que asistiran a este evento.
-		</p>
-		<div class="panel-footer">
-				{% if asis %}
-				<a href="/remove/auspicio/{{ publi.pk }}" class="btn btn-success remove"><button type="button" class="close">&times;</button>Lo recomiendo</a>
-				{% else %}
-				<a href="/add/auspicio/{{ publi.pk }}" class="btn btn-danger" id="{{publi.pk}}" class="add" title="">Recomendar</a>
-				{% endif %}
-			<div class="pull-right">
-				<div class=" label label-danger">Lugar: {{publi.direccion}}</div>
-			</div>
-		</div>
-	</div>
-	<div class="panel">
-		<div class="panel-heading">
-			Caracteristicas:
-		</div>
-		<p>
-			{{ publi.body }}
-		</p>
-	</div>
-</div>
->>>>>>> 8e6e054ba727a25830c8904e1d79682aa9710689
 {% endblock %}				
