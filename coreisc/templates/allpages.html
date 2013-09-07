@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "index.html" %}
 {% block content %}
 {% load staticfiles %}
@@ -35,4 +36,38 @@
 	{% endfor %}
 </div>
 </div>
+=======
+{% extends "index.html" %}
+{% block content %}
+{% load staticfiles %}
+<div class="row">
+	{% for event in event %}
+	<div class="col-lg-4">
+		<div class="panel">
+			<div class="panel-heading">
+				<div class="media">
+		        <div class="pull-left">
+		        	<h5 class="text-danger text-center"><strong>{{ event.fecha|date:'M'}}</strong></h5>
+		          	<h1>{{ event.fecha|date:'d'}}</h1>
+		        </div>
+		        <div class="media-body">
+		          <a href="/evento/{{event.pk}}" title=""><h4 class="media-heading">{{event.title}}</h4></a>
+		         <h6>{{ event.fecha|date:'h:i A'}}</h6> 
+		        </div>
+		      </div>
+			</div>	
+			<div class="panel-body">
+				<span><img src="/media/{{ event.ponente.avatar }}" class="img-circle" width="40px;">Ponente: {{ event.ponente }}</span>	
+			<p class=" label label-danger"><span class="glyphicon glyphicon-calendar"></span>
+			{{ event.fecha }} </p>
+			</div>
+		</div>
+	</div>
+	{% empty %}
+		<div class="panel">
+			No hay eventos
+		</div>
+	{% endfor %}
+</div>
+>>>>>>> 8e6e054ba727a25830c8904e1d79682aa9710689
 {% endblock %}				

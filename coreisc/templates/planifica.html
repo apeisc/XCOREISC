@@ -1,6 +1,7 @@
 {% extends "index.html" %}
 {% block content %}
 {% load staticfiles %}
+<<<<<<< HEAD
 <div class="col-sm-9 col-md-9 col-lg-9">
 
       {% for event in event %}
@@ -20,6 +21,16 @@
             </div>
           </div>
         </div>
+=======
+<div class="col-lg-9">
+      <div class="list-group">
+        <a href="" class="list-group-item active" title="">Lunes</a>
+        <a href="#" class="list-group-item">Entrega de materiales</a>
+      {% for event in event %}
+      {% if event.fecha|date:'d/m/Y' = '07/04/2013' %}
+        <a href="/evento/{{event.pk}}" class="list-group-item">{{event.title}}
+        <span class="badge">{{event.fecha|date:'h:i A'}}</span></a>
+>>>>>>> 8e6e054ba727a25830c8904e1d79682aa9710689
       {% endif %}
       {% endfor %}
       {{hoy}}
@@ -45,6 +56,9 @@
       <p></p>
     </div>
   </div>
+<<<<<<< HEAD
   
+=======
+>>>>>>> 8e6e054ba727a25830c8904e1d79682aa9710689
 </div>
 {% endblock %}        
