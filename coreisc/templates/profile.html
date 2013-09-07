@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 {% block content %}
 {% load staticfiles %}
-<div class="col-lg-9">
+<div class="col-sm-9 col-md-9 col-lg-9">
 	<div class="panel panel-default">
 		<!--<div class="panel-heading">{{username.get_full_name}}</div>-->
 		<table width="100%">
@@ -19,6 +19,40 @@
 						<a href="/follow/{{ username }}" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-heart"></i> Segir</a>
 						{% endif %}
 					{% endif %}
+          {% if user.is_staff%}
+          <a data-toggle="modal" href="#notificar" class="btn btn-danger btn-sm">Notificar</a>
+          <div class="modal fade" id="notificar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">Enviar una notificacion a {{username.first_name}}</h4>
+                </div>
+                <form method="post" action="/notificar/{{username}}/">{% csrf_token %}
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Tipo</label>
+                    <select name="tipo" id="tipo" class="form-control">
+                      <option value="success">Éxito</option>
+                      <option value="info">Información</option>
+                      <option value="warning">Advertencia</option>
+                      <option value="danger">Urgente</option>
+                  </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">mensaje</label>
+                    <textarea rows="4" name="mensaje" class="form-control" name="mensaje" id="mensaje" placeholder="Ingrese mensaje a notificar"></textarea>
+                  </div>
+                  
+                </div>
+                <div class="modal-footer">
+                  <input type="submit" value="Notificar" class="btn btn-danger ">
+                </div>
+                 </form>
+              </div>
+            </div>
+          </div>
+          {% endif %}
 				</h3>
 			</td>
 			<td valign="top" align="right">
@@ -41,7 +75,7 @@
 		</table>
 	</div>
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-sm-4 col-md-4 col-lg-4">
 			<div class="list-group">
 			  <a href="#" class="list-group-item active">
 			    Datos Personales
@@ -56,7 +90,7 @@
 			  </a>
 			</div>
 		</div>
-		<div class="col-lg-8">
+		<div class="col-sm-8 col-md-8 col-lg-8">
 			{% for post in post %}
 			<div class="panel panel-default">
 				<div class="panel-heading">

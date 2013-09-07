@@ -1,10 +1,11 @@
 {% extends "index.html" %}
 {% block content %}
 {% load staticfiles %}
-<div class="col-lg-9">
+
+<div class="col-sm-9 col-md-9 col-lg-9">
 	{% if publi.banner %}<div class="panel" style="background:url(/media/{{ publi.banner }});">
 	{% else %}
-	<div class="panel">
+<div class="panel">
 		{% endif%}
 		<p class="titulo">
 			{% block title %}{{ publi.nombre }}{% endblock %}
@@ -13,9 +14,6 @@
 		{% if publi.banner %}
 		</br></br></br></br></br></br></br>
 		{% endif %}
-		<p class="label label-info">
-			{{ publi.recomienda.count }} persona(s) que asistiran a este evento.
-		</p>
 		<div class="panel-footer">
 				{% if asis %}
 				<a href="/remove/auspicio/{{ publi.pk }}" class="btn btn-success remove"><button type="button" class="close">&times;</button>Lo recomiendo</a>
@@ -27,6 +25,9 @@
 			</div>
 		</div>
 	</div>
+  <div class="panel panel-default" id="map" style="width: 100%; height: 100%">
+  
+  </div>
 	<div class="panel">
 		<div class="panel-heading">
 			Caracteristicas:

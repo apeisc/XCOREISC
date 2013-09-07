@@ -7,6 +7,8 @@
 
 /* Key scaffolding
 -------------------------------------------------- */
+#map { height: 100% }
+
 .avatar {
 border: 3px dashed #707982;
 width: 70%;

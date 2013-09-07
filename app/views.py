@@ -288,7 +288,8 @@ def account(request, username):
     follow = Follow.objects.filter(user1=request.user,user2=username)
     count_follow = Follow.objects.all().filter(user1=username)
     count_follower = Follow.objects.all().filter(user2=username)
-    d =  dict(username=username,post=post,follow=follow,count_follow=count_follow,count_follower=count_follower)
+    Alert = AlertForm()
+    d =  dict(username=username,post=post,follow=follow,count_follow=count_follow,count_follower=count_follower,Alert=Alert)
     if username is not None:
         return render_to_response("profile.html", d, RequestContext(request))
     else:
@@ -333,7 +334,17 @@ def alert(request,pk):
     if alert is not None:
         alert.update(visto=True)
     return HttpResponseRedirect('/')      
-
+  
+def Notificar(request,username):
+  
+  if request.method == "POST":
+    if request.user.is_staff:
+      Username = User.objects.get(username=username)
+      mensaje = request.POST.get('mensaje','')
+      tipo = request.POST.get('tipo','')
+      Alertas.objects.create(tipo=tipo,usuario=Username,mensaje=mensaje,visto=False)
+  return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+  
 def auth_view(request):
     if request.method=='POST':
         username = request.POST.get('username','')

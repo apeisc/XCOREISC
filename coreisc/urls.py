@@ -34,5 +34,6 @@ urlpatterns = patterns('',
     #url(r'^posting/$', posting),
     url(r'^process/create/', new_user),
     url(r'^alerta/(\d+)/$',alert),
+    url(r'^notificar/(?P<username>[a-zA-Z0-9_.-]+)/$',Notificar),
     url(r'^admin/', include(admin.site.urls)),
 )

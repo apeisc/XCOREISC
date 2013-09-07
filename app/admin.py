@@ -12,10 +12,12 @@ class PublicidadAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'body', 'direccion')
 class PaisAdmin(admin.ModelAdmin):
     list_display = ["nombre"]
+class AlertasAdmin(admin.ModelAdmin):
+    list_display = ["tipo","usuario","mensaje","visto"]
 admin.site.register(Ponente,PonenteAdmin)
 admin.site.register(Events,EventsAdmin)
 admin.site.register(UserProfile, ProfileAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Patrocina, PublicidadAdmin)
 admin.site.register(Pais, PaisAdmin)
-admin.site.register(Alertas)
+admin.site.register(Alertas,AlertasAdmin)
